@@ -4,7 +4,7 @@ Riggler is cross platform Rust mouse jiggler
 
 # Note 
 
-- to develop and use `winapi` library, install windows target first `rustup target add x86_64-pc-windows-gnu`
+- to develop and use `winapi` library, install windows target first `rustup target add x86_64-pc-windows-gnu`, [read more](./Cross-Development-Behaviour-Note.md)
 
 # References 
 
@@ -13,3 +13,4 @@ Riggler is cross platform Rust mouse jiggler
 - [x11](https://lib.rs/crates/x11)
 - [winapi](https://lib.rs/crates/winapi)
 - [core-graphic](https://lib.rs/crates/core-graphics)
+

@@ -2,42 +2,67 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <link rel="stylesheet" href="/src/styles.css" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Tauri App</title>
+    <link rel="stylesheet" href="/src/styles.css" />
     <script type="module" src="/src/main.ts" defer></script>
+    <title>Riggler</title>
   </head>
 
   <body>
     <main class="container">
-      <h1>Welcome to Tauri</h1>
 
-      <div class="row">
-        <a href="https://vite.dev" target="_blank">
-          <img src="/src/assets/vite.svg" class="logo vite" alt="Vite logo" />
-        </a>
-        <a href="https://tauri.app" target="_blank">
-          <img
-            src="/src/assets/tauri.svg"
-            class="logo tauri"
-            alt="Tauri logo"
-          />
-        </a>
-        <a href="https://www.typescriptlang.org/docs" target="_blank">
-          <img
-            src="/src/assets/typescript.svg"
-            class="logo typescript"
-            alt="typescript logo"
-          />
-        </a>
+      <div class="jiggling-option">
+        <div class="jiggling-option-item">
+
+          <div class="label-with-checkbox">
+            <input type="checkbox" id="jiggling-checkbox" name="jiggling"/>
+            <label for="jiggling-checkbox"><b>Jiggling</b></label>
+          </div>
+
+        </div>
+
+        <div class="jiggling-option-item">
+          <button id="setting-button" class="setting-button">
+            <b>Setting</b>
+            <img 
+              src="/src/assets/gear-icon.svg"
+              width="30px"
+            />
+          </button>
+          <button id="minimize-to-tray-button" class="minimize-to-tray-button">
+            <img 
+              src="/src/assets/chevron-down-icon.svg"
+              width="30px"
+            />
+          </button>
+        </div>
       </div>
-      <p>Click on the Tauri logo to learn more about the framework</p>
 
-      <form class="row" id="greet-form">
-        <input id="greet-input" placeholder="Enter a name..." />
-        <button type="submit">Greet</button>
-      </form>
-      <p id="greet-msg"></p>
+      <hr/>
+
+      <div id="riggler-about" class="riggler-about">
+        <h4>Riggler - Rust Mouse Jiggler</h4>
+        <p>Cross Platform Rust Mouse Jiggler</p>
+      </div>
+
+      <div id="riggler-setting" class="riggler-setting" hidden>
+        <h4>Settings</h4>
+
+        <label for="jiggling-duration" id="jiggling-duration-label">
+          Jiggling Duration: 1
+        </label>
+
+        <input 
+          type="range" 
+          id="jiggling-duration" 
+          class="jiggling-duration"
+          name="jiggling-duration"
+          min="1" 
+          max="15" 
+          value="1"
+        />
+      </div>
+
     </main>
   </body>
 </html>

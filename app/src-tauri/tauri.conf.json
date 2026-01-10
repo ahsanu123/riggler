@@ -1,6 +1,6 @@
 {
   "$schema": "https://schema.tauri.app/config/2",
-  "productName": "riggler-app",
+  "productName": "riggler",
   "version": "0.1.0",
   "identifier": "ah.riggler.app",
   "build": {
@@ -13,9 +13,12 @@
     "withGlobalTauri": true,
     "windows": [
       {
-        "title": "riggler-app",
-        "width": 800,
-        "height": 600
+        "title": "Riggler",
+        "width": 410,
+        "height": 135,
+        "transparent": true,
+        "resizable": false,
+        "maximizable": false
       }
     ],
     "security": {

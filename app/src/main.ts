@@ -1,22 +1,70 @@
-import { invoke } from "@tauri-apps/api/core";
+import { getCurrentWindow, LogicalPosition, LogicalSize, PhysicalSize } from "@tauri-apps/api/window";
 
-let greetInputEl: HTMLInputElement | null;
-let greetMsgEl: HTMLElement | null;
+let trayButton: HTMLButtonElement | null
+let settingButton: HTMLButtonElement | null
 
-async function greet() {
-  if (greetMsgEl && greetInputEl) {
-    // Learn more about Tauri commands at https://tauri.app/develop/calling-rust/
-    greetMsgEl.textContent = await invoke("greet", {
-      name: greetInputEl.value,
-    });
-  }
+let jigglingCheckbox: HTMLInputElement | null
+let jigglingDuration: HTMLInputElement | null
+let jigglingDurationLabel: HTMLLabelElement | null
+
+let settingContainer: HTMLDivElement | null
+let helpContainer: HTMLDivElement | null
+
+let state = {
+  isSettingHidden: true,
+  isJiggling: false,
+  jigglingDuration: 1
 }
 
 window.addEventListener("DOMContentLoaded", () => {
-  greetInputEl = document.querySelector("#greet-input");
-  greetMsgEl = document.querySelector("#greet-msg");
-  document.querySelector("#greet-form")?.addEventListener("submit", (e) => {
-    e.preventDefault();
-    greet();
-  });
+
+  // const _appWindow = getCurrentWindow()
+
+  trayButton = document.getElementById("minimize-to-tray-button") as HTMLButtonElement
+  settingButton = document.getElementById("setting-button") as HTMLButtonElement
+
+  jigglingCheckbox = document.getElementById("jiggling-checkbox") as HTMLInputElement
+  jigglingDuration = document.getElementById("jiggling-duration") as HTMLInputElement
+  jigglingDurationLabel = document.getElementById("jiggling-duration-label") as HTMLLabelElement
+
+  settingContainer = document.getElementById("riggler-setting") as HTMLDivElement
+  helpContainer = document.getElementById("riggler-about") as HTMLDivElement
+
+  const handleOnTrayButtonClick = () => {
+    // TODO: invoke tauri or something
+    // need reading more about system tray
+  }
+
+  const toggleSettingContainerVisibility = () => {
+    if (state.isSettingHidden) {
+      settingContainer?.removeAttribute('hidden')
+      state.isSettingHidden = false
+
+      helpContainer?.setAttribute('hidden', '')
+    }
+    else {
+      settingContainer?.setAttribute('hidden', '')
+      state.isSettingHidden = true
+
+      helpContainer?.removeAttribute('hidden')
+    }
+  }
+
+  const handleOnJigglingCheckedChange = (ev: Event) => {
+    console.log("onJiggling", ev)
+  }
+
+  const handleOnJigglingDurationChane = (ev: Event) => {
+    const range = ev.target as HTMLInputElement
+    jigglingDurationLabel!.innerText = `Jiggling Duration: ${range.value}`
+    state.jigglingDuration = Number(range.value)
+    console.log("onJigglingDurationChange", ev, state.jigglingDuration)
+  }
+
+  trayButton.addEventListener('click', handleOnTrayButtonClick)
+  settingButton.addEventListener('click', toggleSettingContainerVisibility)
+
+  jigglingCheckbox.addEventListener('change', handleOnJigglingCheckedChange)
+  jigglingDuration.addEventListener('change', handleOnJigglingDurationChane)
+
 });
