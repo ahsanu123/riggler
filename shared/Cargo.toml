@@ -1,6 +1,21 @@
 [package]
 name = "riggler_shared"
-version = "0.1.0"
+version = "0.0.1"
 edition = "2024"
+description = "🖱️ Riggler - Rust Mouse Jiggler"
 
 [dependencies]
+
+[target.'cfg(target_os = "linux")'.dependencies]
+x11 = "2.21.0"
+
+[target.'cfg(target_os = "windows")'.dependencies]
+windows = {version = "0.62.2", features = [
+  "Win32_UI_Input_Pointer", 
+  "Win32_UI_Input_KeyboardAndMouse",
+  "Win32_UI_WindowsAndMessaging",
+  "Win32_Foundation",
+]}
+
+# [target.'cfg(target_os = "macos")'.dependencies]
+# core-graphics = {version = "0.25.0", features = ["highsierra"]}

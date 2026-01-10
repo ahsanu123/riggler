@@ -1,5 +1,7 @@
-pub(crate) mod linux;
-pub(crate) mod macos;
-pub(crate) mod windows;
+#[cfg(target_os = "linux")]
+pub mod linux;
+#[cfg(target_os = "windows")]
+pub mod windows;
+// pub mod macos;
 
 pub(crate) mod moveable_mouse;

@@ -2,6 +2,10 @@
 
 Riggler is cross platform Rust mouse jiggler
 
+# Note 
+
+- to develop and use `winapi` library, install windows target first `rustup target add x86_64-pc-windows-gnu`
+
 # References 
 
 - [rustautogui mouse source](https://github.com/DavorMar/rustautogui/tree/main/src/core/mouse)
