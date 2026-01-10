@@ -1,5 +1,3 @@
-import { getCurrentWindow, LogicalPosition, LogicalSize, PhysicalSize } from "@tauri-apps/api/window";
-
 let trayButton: HTMLButtonElement | null
 let settingButton: HTMLButtonElement | null
 

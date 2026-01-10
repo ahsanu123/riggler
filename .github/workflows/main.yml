@@ -1,0 +1,54 @@
+name: Build Tauri No Bundle
+
+on:
+  workflow_dispatch: 
+  push:
+    branches: [release]
+
+jobs:
+  build_linux:
+    runs-on: ubuntu-latest
+    name: Build on Linux (x86_64)
+    steps:
+      - uses: actions/checkout@v4
+      - name: Setup Rust & Node
+        run: |
+          sudo apt update
+          sudo apt install -y libwebkit2gtk-4.1-dev build-essential libssl-dev
+          curl https://sh.rustup.rs -sSf | sh -s -- -y
+          source $HOME/.cargo/env
+          rustup default stable
+          curl -fsSL https://deb.nodesource.com/setup_20.x | sudo bash -
+          sudo apt install -y nodejs
+          npm install -g yarn
+      - name: Build Tauri App
+        run: |
+          cd app
+          yarn install
+          yarn tauri build --no-bundle
+      - uses: actions/upload-artifact@v4
+        with:
+          name: linux-binary
+          path: app/src-tauri/target/release/riggler
+
+  build_windows:
+    runs-on: windows-latest
+    name: Build on Windows
+    steps:
+      - uses: actions/checkout@v4
+      - name: Setup Rust & Node
+        run: |
+          choco install -y nodejs-lts
+          npm install -g yarn
+          curl https://sh.rustup.rs -sSf | sh -s -- -y
+          setx PATH "%USERPROFILE%\.cargo\bin;%PATH%"
+          rustup default stable
+      - name: Build Tauri App
+        run: |
+          cd app
+          yarn install
+          yarn tauri build --no-bundle
+      - uses: actions/upload-artifact@v4
+        with:
+          name: windows-binary
+          path: app\src-tauri\target\release\riggler.exe

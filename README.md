@@ -1,6 +1,6 @@
 # 🖱️ Riggler - Rust Mouse Jiggler 
 
-Riggler is cross platform Rust mouse jiggler
+Dead Simple Mouse Jiggler Implemented in Rust.
 
 # Note 
 
@@ -13,4 +13,5 @@ Riggler is cross platform Rust mouse jiggler
 - [x11](https://lib.rs/crates/x11)
 - [winapi](https://lib.rs/crates/winapi)
 - [core-graphic](https://lib.rs/crates/core-graphics)
+
 
