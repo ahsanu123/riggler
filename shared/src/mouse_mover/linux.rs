@@ -1,16 +1,29 @@
 use crate::mouse_mover::moveable_mouse::{MoveableMouseErr, MoveablePointer};
-use x11::xlib::{_XDisplay, XFlush, XQueryPointer, XWarpPointer};
+use std::ptr;
+use x11::xlib::{
+    _XDisplay, XCloseDisplay, XDefaultScreen, XFlush, XInitThreads, XOpenDisplay, XQueryPointer,
+    XRootWindow, XWarpPointer,
+};
 
 pub struct LinuxMouseMover {
-    screen: *mut _XDisplay,
+    display: *mut _XDisplay,
     root_window: u64,
 }
 
 impl LinuxMouseMover {
-    pub fn new(screen: *mut _XDisplay, root_window: u64) -> Self {
-        Self {
-            screen,
-            root_window,
+    pub fn new() -> Self {
+        unsafe {
+            let display = XOpenDisplay(ptr::null());
+            if display.is_null() {
+                panic!("cant open display, XOpenDisplay is null");
+            }
+            let default_screen = XDefaultScreen(display);
+            let root_window = XRootWindow(display, default_screen);
+
+            Self {
+                display,
+                root_window,
+            }
         }
     }
 }
@@ -22,8 +35,8 @@ impl MoveablePointer for LinuxMouseMover {
         // only move if position is not same
         if !(current_x == x && current_y == y) {
             unsafe {
-                XWarpPointer(self.screen, 0, self.root_window, 0, 0, 0, 0, x, y);
-                XFlush(self.screen);
+                XWarpPointer(self.display, 0, self.root_window, 0, 0, 0, 0, x, y);
+                XFlush(self.display);
             }
         }
 
@@ -44,7 +57,7 @@ impl MoveablePointer for LinuxMouseMover {
             let mut mask_return = 0;
 
             let status = XQueryPointer(
-                self.screen,
+                self.display,
                 self.root_window,
                 &mut root_return,
                 &mut child_return,
@@ -62,6 +75,14 @@ impl MoveablePointer for LinuxMouseMover {
             }
 
             Ok((root_x, root_y))
+        }
+    }
+}
+
+impl Drop for LinuxMouseMover {
+    fn drop(&mut self) {
+        unsafe {
+            XCloseDisplay(self.display);
         }
     }
 }
