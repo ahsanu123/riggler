@@ -1,5 +1,6 @@
 use crate::mouse_mover::moveable_mouse::{MoveableMouseErr, MoveablePointer};
 use windows::Win32::Foundation::POINT;
+use windows::Win32::System::Power::{ES_CONTINUOUS, ES_DISPLAY_REQUIRED, SetThreadExecutionState};
 use windows::Win32::UI::WindowsAndMessaging::{GetCursorPos, SetCursorPos};
 
 pub struct WindowsMouseMover;
@@ -14,6 +15,7 @@ impl MoveablePointer for WindowsMouseMover {
     fn move_to_pos(&mut self, x: i32, y: i32) -> Result<(), MoveableMouseErr> {
         let (current_x, current_y) = self.get_pos()?;
         unsafe {
+            SetThreadExecutionState(ES_CONTINUOUS | ES_DISPLAY_REQUIRED);
             if current_x == x && current_y == y {
                 return Ok(());
             }
