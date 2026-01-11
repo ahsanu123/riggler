@@ -1,8 +1,7 @@
+use crate::commands::{get_config, set_config, toggle_jiggling};
 use tauri::AppHandle;
 
-use crate::store_command::{get_config, set_config, toggle_jiggling};
-
-mod store_command;
+mod commands;
 
 #[cfg_attr(mobile, tauri::mobile_entry_point)]
 pub fn run() {

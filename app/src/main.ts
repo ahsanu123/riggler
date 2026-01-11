@@ -1,3 +1,5 @@
+import { getConfig, setConfig, toggleJiggling } from "./invokes"
+
 let trayButton: HTMLButtonElement | null
 let settingButton: HTMLButtonElement | null
 
@@ -16,8 +18,6 @@ let state = {
 
 window.addEventListener("DOMContentLoaded", () => {
 
-  // const _appWindow = getCurrentWindow()
-
   trayButton = document.getElementById("minimize-to-tray-button") as HTMLButtonElement
   settingButton = document.getElementById("setting-button") as HTMLButtonElement
 
@@ -27,6 +27,13 @@ window.addEventListener("DOMContentLoaded", () => {
 
   settingContainer = document.getElementById("riggler-setting") as HTMLDivElement
   helpContainer = document.getElementById("riggler-about") as HTMLDivElement
+
+  getConfig().then(value => {
+    const duration = value?.jiggling_duration ?? 1
+    state.jigglingDuration = duration
+    jigglingDurationLabel!.innerText = `Jiggling Duration: ${duration}`
+    jigglingDuration!.value = duration.toString()
+  })
 
   const handleOnTrayButtonClick = () => {
     // TODO: invoke tauri or something
@@ -48,21 +55,25 @@ window.addEventListener("DOMContentLoaded", () => {
     }
   }
 
-  const handleOnJigglingCheckedChange = (ev: Event) => {
-    console.log("onJiggling", ev)
+  const handleOnJigglingCheckedChange = async (_ev: Event) => {
+    const result = await toggleJiggling()
+    console.log("toggleJiggling", result)
   }
 
-  const handleOnJigglingDurationChane = (ev: Event) => {
+  const handleOnJigglingDurationChange = async (ev: Event) => {
     const range = ev.target as HTMLInputElement
     jigglingDurationLabel!.innerText = `Jiggling Duration: ${range.value}`
+
     state.jigglingDuration = Number(range.value)
-    console.log("onJigglingDurationChange", ev, state.jigglingDuration)
+    const result = await setConfig({ jiggling_duration: state.jigglingDuration })
+
+    console.log("setconfig", result)
   }
 
   trayButton.addEventListener('click', handleOnTrayButtonClick)
   settingButton.addEventListener('click', toggleSettingContainerVisibility)
 
   jigglingCheckbox.addEventListener('change', handleOnJigglingCheckedChange)
-  jigglingDuration.addEventListener('change', handleOnJigglingDurationChane)
+  jigglingDuration.addEventListener('change', handleOnJigglingDurationChange)
 
 });

@@ -54,7 +54,7 @@ pub fn toggle_jiggling() -> bool {
 
     JIGGLING_ENABLE.store(!jiggling, Ordering::Relaxed);
 
-    jiggling
+    !jiggling
 }
 
 #[tauri::command]
