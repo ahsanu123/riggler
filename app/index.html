@@ -9,60 +9,7 @@
   </head>
 
   <body>
-    <main class="container">
-
-      <div class="jiggling-option">
-        <div class="jiggling-option-item">
-
-          <div class="label-with-checkbox">
-            <input type="checkbox" id="jiggling-checkbox" name="jiggling"/>
-            <label for="jiggling-checkbox"><b>Jiggling</b></label>
-          </div>
-
-        </div>
-
-        <div class="jiggling-option-item">
-          <button id="setting-button" class="setting-button">
-            <b>Setting</b>
-            <img 
-              src="/src/assets/gear-icon.svg"
-              width="30px"
-            />
-          </button>
-          <button id="minimize-to-tray-button" class="minimize-to-tray-button">
-            <img 
-              src="/src/assets/chevron-down-icon.svg"
-              width="30px"
-            />
-          </button>
-        </div>
-      </div>
-
-      <hr/>
-
-      <div id="riggler-about" class="riggler-about">
-        <h2>Riggler - Rust Mouse Jiggler</h2>
-        <p>Cross Platform Rust Mouse Jiggler</p>
-      </div>
-
-      <div id="riggler-setting" class="riggler-setting" hidden>
-        <h2>Settings</h2>
-
-        <label for="jiggling-duration" id="jiggling-duration-label">
-          Jiggling Duration: 1
-        </label>
-
-        <input 
-          type="range" 
-          id="jiggling-duration" 
-          class="jiggling-duration"
-          name="jiggling-duration"
-          min="1" 
-          max="15" 
-          value="1"
-        />
-      </div>
-
+    <main id="main-container" class="container">
     </main>
   </body>
 </html>
