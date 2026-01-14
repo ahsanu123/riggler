@@ -14,8 +14,8 @@
     "windows": [
       {
         "title": "Riggler",
-        "width": 410,
-        "height": 200,
+        "width": 454,
+        "height": 140,
         "transparent": true,
         "resizable": false,
         "maximizable": false

@@ -10,7 +10,7 @@
 
 body{
   background-color: var(--body-bg);
-  margin: 0 5px;
+  margin: 0;
 }
 
 .container{
@@ -18,6 +18,28 @@ body{
   justify-content: space-between;
   align-items: center;
   height: 100vh;
+}
+
+.running-jiggling-text{
+  width: 100%;
+  color: white; 
+  background-color: black;
+  align-items: center;
+  display: flex;
+  margin: 0;
+  overflow: hidden;
+  white-space: nowrap;
+
+  .scroll-text{
+    padding-left: 10px;
+    animation: scrollText 20s linear infinite;
+  }
+}
+
+@keyframes scrollText {
+  to {
+    transform: translate(-50%);
+  }
 }
 
 .riggler-app{
@@ -44,6 +66,12 @@ body{
     align-items: center;
   }
 
+  .main-screen,
+  .about-screen,
+  .setting-screen{
+    margin: 5px;
+  }
+
 }
 
 input[type='checkbox']{
@@ -58,4 +86,9 @@ input[type='range']{
 button{
   border: none;
   background-color: --body-bg;
+}
+
+h2,
+p{
+  margin: 0;
 }

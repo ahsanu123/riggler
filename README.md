@@ -1,6 +1,6 @@
 # 🖱️ Riggler - Rust Mouse Jiggler 
 
-<img width="1331" height="240" alt="image" src="https://github.com/user-attachments/assets/a834f493-db09-436a-997f-9c0f2f5b6389" />
+<img width="448" height="138" alt="image" src="https://github.com/user-attachments/assets/102ff5e5-2043-4828-939b-f973e22d89a8" />
 
 Dead Simple Mouse Jiggler Implemented in Rust.
 
@@ -19,6 +19,7 @@ Dead Simple Mouse Jiggler Implemented in Rust.
 - [x11](https://lib.rs/crates/x11)
 - [winapi](https://lib.rs/crates/winapi)
 - [core-graphic](https://lib.rs/crates/core-graphics)
+
 
 
 
