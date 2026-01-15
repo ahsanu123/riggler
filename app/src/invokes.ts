@@ -5,7 +5,7 @@ const TOGGLE_JIGGLING_INVOKE_NAME = "toggle_jiggling"
 const GET_CONFIG_INVOKE_NAME = "get_config"
 const SET_CONFIG_INVOKE_NAME = "set_config"
 
-export async function toggleJiggling(): Promise<boolean> {
+export async function toggleJigglingInvoke(): Promise<boolean> {
   try {
     const result = await invoke<boolean>(TOGGLE_JIGGLING_INVOKE_NAME)
     return result
@@ -15,7 +15,7 @@ export async function toggleJiggling(): Promise<boolean> {
   }
 }
 
-export async function getConfig(): Promise<RigglerConfig | undefined> {
+export async function getConfigInvoke(): Promise<RigglerConfig | undefined> {
   try {
     const result = await invoke<RigglerConfig>(GET_CONFIG_INVOKE_NAME)
     return result
@@ -24,7 +24,7 @@ export async function getConfig(): Promise<RigglerConfig | undefined> {
   }
 }
 
-export async function setConfig(config: RigglerConfig): Promise<boolean> {
+export async function setConfigInvoke(config: RigglerConfig): Promise<boolean> {
   try {
     const result = await invoke<boolean>(SET_CONFIG_INVOKE_NAME, { config })
     return result

@@ -1,7 +1,8 @@
 use crate::commands::{get_config, set_config, toggle_jiggling};
-use tauri::AppHandle;
 
 mod commands;
+mod riggler_config;
+mod riggler_err;
 
 #[cfg_attr(mobile, tauri::mobile_entry_point)]
 pub fn run() {

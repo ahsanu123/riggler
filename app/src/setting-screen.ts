@@ -1,15 +1,26 @@
 import m from 'mithril'
 import { ActiveTab, rigglerAppState } from './state'
+import { getConfigInvoke, setConfigInvoke } from './invokes'
 
 export const settingScreen: m.Component = {
   view: function (): m.Children | null | void {
-    const handleOnJigglingDurationChange = (duration: number) => {
-      // TODO: add invoke to change duration in rust
+    const handleOnJigglingDurationChange = async (duration: number) => {
       rigglerAppState.jigglingDuration = duration
+
+      let config = await getConfigInvoke();
+      if (config) {
+        config.jiggling_duration = duration
+        setConfigInvoke(config)
+      }
     }
-    const handleOnJigglingDeltaChange = (value: number) => {
-      // TODO: add invoke to change value in rust
+    const handleOnJigglingDeltaChange = async (value: number) => {
       rigglerAppState.jigglingDelta = value
+
+      let config = await getConfigInvoke();
+      if (config) {
+        config.jiggling_delta = value
+        setConfigInvoke(config)
+      }
     }
 
     return m(".setting-screen", [

@@ -1,52 +1,11 @@
-use riggler_shared::JIGGLING_ENABLE;
-use serde::{de::DeserializeOwned, Deserialize, Serialize};
-use serde_json::Value;
+use crate::{riggler_config::RigglerConfig, riggler_err::RigglerErr};
+use riggler_shared::{JIGGLING_DELAY, JIGGLING_DELTA, JIGGLING_ENABLE};
 use std::sync::atomic::Ordering;
-use tauri::{ipc::InvokeError, AppHandle};
+use tauri::AppHandle;
 use tauri_plugin_store::StoreExt;
 
 const RIGGLER_SETTING: &str = "riggler.setting.json";
 const RIGGLER_SETTING_KEY: &str = "riggler_setting";
-
-#[derive(Debug)]
-pub enum RigglerErr {
-    GetStoreProviderErr,
-    SetConfigErr,
-    GetConfigErr,
-    ToggleJigglingErr,
-    SaveStoreErr,
-}
-
-impl Into<InvokeError> for RigglerErr {
-    fn into(self) -> InvokeError {
-        match self {
-            RigglerErr::GetStoreProviderErr => InvokeError::from("error when get store provider"),
-            RigglerErr::SetConfigErr => InvokeError::from("error when setting config"),
-            RigglerErr::GetConfigErr => InvokeError::from("error when get config"),
-            RigglerErr::ToggleJigglingErr => InvokeError::from("error when toggle jiggling"),
-            RigglerErr::SaveStoreErr => InvokeError::from("error save config"),
-        }
-    }
-}
-
-#[derive(Debug, Serialize, Deserialize)]
-pub struct RigglerConfig {
-    jiggling_duration: u32,
-}
-
-impl RigglerConfig {
-    pub fn new(jiggling_duration: u32) -> Self {
-        Self { jiggling_duration }
-    }
-}
-
-impl Default for RigglerConfig {
-    fn default() -> Self {
-        Self {
-            jiggling_duration: 1,
-        }
-    }
-}
 
 #[tauri::command]
 pub fn toggle_jiggling() -> bool {
@@ -70,6 +29,14 @@ pub fn get_config(app: AppHandle) -> Result<RigglerConfig, RigglerErr> {
     } else {
         let config = serde_json::from_value::<RigglerConfig>(riggler_config_value.unwrap())
             .map_err(|_| RigglerErr::GetConfigErr)?;
+
+        if config.jiggling_delta != JIGGLING_DELTA.load(Ordering::Relaxed) {
+            JIGGLING_DELTA.store(config.jiggling_delta, Ordering::Relaxed);
+        }
+
+        if config.jiggling_delay != JIGGLING_DELAY.load(Ordering::Relaxed) {
+            JIGGLING_DELAY.store(config.jiggling_delay, Ordering::Relaxed);
+        }
         return Ok(config);
     }
 }
@@ -84,6 +51,9 @@ pub fn set_config(app: AppHandle, config: RigglerConfig) -> Result<bool, Riggler
 
     store.set(RIGGLER_SETTING_KEY, config_value);
     store.save().map_err(|_| RigglerErr::SaveStoreErr)?;
+
+    JIGGLING_DELAY.store(config.jiggling_delay, Ordering::Relaxed);
+    JIGGLING_DELTA.store(config.jiggling_delta, Ordering::Relaxed);
 
     Ok(true)
 }

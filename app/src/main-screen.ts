@@ -1,10 +1,14 @@
 import m from 'mithril'
 import { ActiveTab, rigglerAppState } from './state'
+import { toggleJigglingInvoke } from './invokes'
 
 export const mainScreen: m.Component = {
   view: function (): m.Children | null | void {
-    const handleOnIsJigglingCheckedChange = (checked: boolean) => {
+    const handleOnIsJigglingCheckedChange = async (checked: boolean) => {
       rigglerAppState.isJiggling = checked
+      const isJiggling = await toggleJigglingInvoke()
+
+      if (checked !== isJiggling) await toggleJigglingInvoke()
     }
     return m(".main-screen",
       [
