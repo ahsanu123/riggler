@@ -1,8 +1,25 @@
+<p>
+  <a href="">
+    <img alt="npm version" src="https://badgen.net/github/commits/ahsanu123/riggler/">
+  </a>
+  <a href="">
+    <img alt="npm" src="https://badgen.net/github/contributors/ahsanu123/riggler/">
+  </a>
+  <a href="">
+    <img alt="npm" src="https://badgen.net/github/branches/ahsanu123/riggler/">
+  </a>
+  <a href="https://github.com/ahsanu123/riggler/blob/main/LICENSE">
+    <img alt="licence" src="https://badgen.net/github/license/ahsanu123/riggler/">
+  </a>
+</p>
+
 # 🖱️ Riggler - Rust Mouse Jiggler 
 
-<img width="448" height="138" alt="image" src="https://github.com/user-attachments/assets/102ff5e5-2043-4828-939b-f973e22d89a8" />
-
 Dead Simple Mouse Jiggler Implemented in Rust.
+
+<p align="center">
+  <img width="448" height="138" alt="image" src="https://github.com/user-attachments/assets/102ff5e5-2043-4828-939b-f973e22d89a8" />
+</p>
 
 ## Note 
 
@@ -19,6 +36,8 @@ Dead Simple Mouse Jiggler Implemented in Rust.
 - [x11](https://lib.rs/crates/x11)
 - [winapi](https://lib.rs/crates/winapi)
 - [core-graphic](https://lib.rs/crates/core-graphics)
+- [system tray disscussion](https://github.com/orgs/tauri-apps/discussions/2684)
+
 
 
 
