@@ -3,12 +3,15 @@ import { ActiveTab, rigglerAppState } from './state'
 import { settingScreen } from './setting-screen'
 import { aboutScreen } from './about-screen'
 import { mainScreen } from './main-screen'
+import { createTrayIcon } from './system-tray'
 import './styles.css'
 
 const mainContainer = document.getElementById("main-container")
 
 const rigglerApp: m.Component = {
-
+  oninit: async () => {
+    await createTrayIcon()
+  },
   view: function (): m.Children | null | void {
 
     const renderActiveTab = () => {
