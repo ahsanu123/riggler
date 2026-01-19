@@ -24,7 +24,6 @@ export const mainScreen: m.Component = {
 
         m('.jiggling-container',
           [
-            m("h2", "Riggler"),
             m("div", [
               m("input[type='checkbox']", {
                 id: "is-jiggling-checkbox",

@@ -85,10 +85,11 @@ input[type='range']{
 
 button{
   border: none;
-  background-color: --body-bg;
+  background-color: transparent;
 }
 
 h2,
+h3,
 p{
   margin: 0;
 }

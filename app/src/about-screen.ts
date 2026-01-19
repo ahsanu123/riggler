@@ -15,7 +15,7 @@ export const aboutScreen: m.Component = {
       }),
 
       m("div", [
-        m("h2", "About Riggler"),
+        m("h3", "Riggler"),
         m("p", {
           style: { padding: '0 10px 0 0' }
         },

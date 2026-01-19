@@ -1,8 +1,8 @@
 use crate::mouse_mover::moveable_mouse::{MoveableMouseErr, MoveablePointer};
 use std::ptr;
 use x11::xlib::{
-    _XDisplay, XCloseDisplay, XDefaultScreen, XFlush, XInitThreads, XOpenDisplay, XQueryPointer,
-    XRootWindow, XWarpPointer,
+    _XDisplay, XCloseDisplay, XDefaultScreen, XFlush, XOpenDisplay, XQueryPointer, XRootWindow,
+    XWarpPointer,
 };
 
 pub struct LinuxMouseMover {

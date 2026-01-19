@@ -1,4 +1,4 @@
-use tauri::{ipc::InvokeError, AppHandle};
+use tauri::ipc::InvokeError;
 
 #[derive(Debug)]
 pub enum RigglerErr {

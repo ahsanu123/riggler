@@ -2,6 +2,8 @@ import m from 'mithril'
 import { ActiveTab, rigglerAppState } from './state'
 import { getConfigInvoke, setConfigInvoke } from './invokes'
 
+const MAX_DELAY = 5;
+const MAX_DELTA = 25;
 export const settingScreen: m.Component = {
   view: function (): m.Children | null | void {
     const handleOnJigglingDurationChange = async (duration: number) => {
@@ -9,7 +11,7 @@ export const settingScreen: m.Component = {
 
       let config = await getConfigInvoke();
       if (config) {
-        config.jiggling_duration = duration
+        config.jiggling_delay = duration
         setConfigInvoke(config)
       }
     }
@@ -43,7 +45,7 @@ export const settingScreen: m.Component = {
             name: "jiggling-duration",
             class: "jiggling-duration",
             min: 1,
-            max: 10,
+            max: MAX_DELAY,
             value: rigglerAppState.jigglingDuration,
             oninput: (e: Event) => {
               const value = (e.target as HTMLInputElement).value
@@ -59,7 +61,7 @@ export const settingScreen: m.Component = {
             name: "jiggling-delta",
             class: "jiggling-delta",
             min: 1,
-            max: 10,
+            max: MAX_DELTA,
             value: rigglerAppState.jigglingDelta,
             oninput: (e: Event) => {
               const value = (e.target as HTMLInputElement).value

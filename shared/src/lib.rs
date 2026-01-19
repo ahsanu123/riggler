@@ -1,5 +1,8 @@
+use crate::mouse_mover::moveable_mouse::MoveableMouseErr;
 use crate::mouse_mover::moveable_mouse::MoveablePointer;
+use std::sync::LazyLock;
 use std::sync::atomic::{AtomicBool, AtomicI32, AtomicU64};
+use std::sync::{Arc, Mutex};
 use std::thread;
 use std::{sync::atomic::Ordering, time::Duration};
 
@@ -16,7 +19,10 @@ use mouse_mover::windows::WindowsMouseMover as MouseMover;
 
 pub static JIGGLING_ENABLE: AtomicBool = AtomicBool::new(false);
 pub static JIGGLING_DELTA: AtomicI32 = AtomicI32::new(1);
-pub static JIGGLING_DELAY: AtomicU64 = AtomicU64::new(1);
+pub static JIGGLING_DELAY: AtomicI32 = AtomicI32::new(1);
+
+pub static LATEST_ERROR_MESSAGE: LazyLock<Mutex<String>> =
+    LazyLock::new(|| Mutex::new(String::from("")));
 
 pub fn jiggling() {
     #[cfg(target_os = "linux")]
@@ -37,7 +43,7 @@ pub fn jiggling() {
                     let _ = linux_mouse.move_to_pos(current_pos.0 + delta, current_pos.1 + delta);
                 }
 
-                thread::sleep(Duration::from_secs(delay));
+                thread::sleep(Duration::from_secs(delay as u64));
 
                 if JIGGLING_ENABLE.load(Ordering::Relaxed) {
                     let current_pos = linux_mouse.get_pos().unwrap();
@@ -45,7 +51,7 @@ pub fn jiggling() {
                     let _ = linux_mouse.move_to_pos(current_pos.0 - delta, current_pos.1 - delta);
                 }
 
-                thread::sleep(Duration::from_secs(delay));
+                thread::sleep(Duration::from_secs(delay as u64));
             }
         });
     }
@@ -66,7 +72,7 @@ pub fn jiggling() {
                         .move_to_pos(current_pos.0 + delta, current_pos.1 + delta);
                 }
 
-                thread::sleep(Duration::from_secs(delay));
+                thread::sleep(Duration::from_secs(delay as u64));
 
                 if JIGGLING_ENABLE.load(Ordering::Relaxed) {
                     let current_pos = windows_mouse_mover.get_pos().unwrap();
@@ -75,7 +81,7 @@ pub fn jiggling() {
                         .move_to_pos(current_pos.0 - delta, current_pos.1 - delta);
                 }
 
-                thread::sleep(Duration::from_secs(delay));
+                thread::sleep(Duration::from_secs(delay as u64));
             }
         });
     }

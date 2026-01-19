@@ -25,7 +25,7 @@ pub fn get_config(app: AppHandle) -> Result<RigglerConfig, RigglerErr> {
     let riggler_config_value = store.get(RIGGLER_SETTING_KEY);
 
     if riggler_config_value.is_none() {
-        return Ok(RigglerConfig::default());
+        Ok(RigglerConfig::default())
     } else {
         let config = serde_json::from_value::<RigglerConfig>(riggler_config_value.unwrap())
             .map_err(|_| RigglerErr::GetConfigErr)?;
@@ -37,7 +37,7 @@ pub fn get_config(app: AppHandle) -> Result<RigglerConfig, RigglerErr> {
         if config.jiggling_delay != JIGGLING_DELAY.load(Ordering::Relaxed) {
             JIGGLING_DELAY.store(config.jiggling_delay, Ordering::Relaxed);
         }
-        return Ok(config);
+        Ok(config)
     }
 }
 

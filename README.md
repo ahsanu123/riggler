@@ -28,6 +28,7 @@ Dead Simple Mouse Jiggler Implemented in Rust.
 ## Logs 
 
 - 11 January 2026, Jiggling is working on windows.
+- 19 January 2026, Checked on Linux with X11 work.
 
 ## References 
 
@@ -37,6 +38,7 @@ Dead Simple Mouse Jiggler Implemented in Rust.
 - [winapi](https://lib.rs/crates/winapi)
 - [core-graphic](https://lib.rs/crates/core-graphics)
 - [system tray disscussion](https://github.com/orgs/tauri-apps/discussions/2684)
+
 
 
 
