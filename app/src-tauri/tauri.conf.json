@@ -15,9 +15,13 @@
       {
         "title": "Riggler",
         "width": 455,
-        "height": 100,
+        "height": 120,
+        "minWidth": 455,
+        "maxWidth": 455,
+        "minHeight": 120,
+        "maxHeight": 120,
         "transparent": true,
-        "resizable": false,
+        "resizable": true,
         "maximizable": false
       }
     ],
