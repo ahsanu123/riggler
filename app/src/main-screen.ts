@@ -15,7 +15,7 @@ export const mainScreen: m.Component = {
         m('img', {
           onclick: () => rigglerAppState.activeTab = ActiveTab.MainScreen,
           class: 'riggler-icon-image',
-          src: '/src/assets/riggler-icon.png',
+          src: '/src/assets/riggler-icon1.png',
           height: '70px',
           style: {
             borderRadius: "60px"
@@ -24,21 +24,19 @@ export const mainScreen: m.Component = {
 
         m('.jiggling-container',
           [
-            m("div", [
-              m("input[type='checkbox']", {
-                id: "is-jiggling-checkbox",
-                name: "is-jiggling-checkbox",
-                checked: rigglerAppState.isJiggling,
-                onclick: (e: Event) => {
-                  const checked = (e.target as HTMLInputElement).checked
-                  handleOnIsJigglingCheckedChange(checked)
-                }
-              }),
-              m("label",
-                { for: "is-jiggling-checkbox" },
-                "Jiggling"
-              )
-            ])
+            m("input[type='checkbox']", {
+              id: "is-jiggling-checkbox",
+              name: "is-jiggling-checkbox",
+              checked: rigglerAppState.isJiggling,
+              onclick: (e: Event) => {
+                const checked = (e.target as HTMLInputElement).checked
+                handleOnIsJigglingCheckedChange(checked)
+              }
+            }),
+            m("label",
+              { for: "is-jiggling-checkbox" },
+              "Jiggling"
+            )
           ]
         ),
 

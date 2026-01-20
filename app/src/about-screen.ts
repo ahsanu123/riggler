@@ -7,7 +7,7 @@ export const aboutScreen: m.Component = {
       m('img', {
         onclick: () => rigglerAppState.activeTab = ActiveTab.MainScreen,
         class: 'riggler-icon-image',
-        src: '/src/assets/riggler-icon.png',
+        src: '/src/assets/riggler-icon1.png',
         height: '70px',
         style: {
           borderRadius: "60px"
