@@ -18,7 +18,9 @@
 Dead Simple Mouse Jiggler Implemented in Rust.
 
 <p align="center">
-  <img width="448" height="138" alt="image" src="https://github.com/user-attachments/assets/102ff5e5-2043-4828-939b-f973e22d89a8" />
+  <img width="866" height="261" alt="image" src="https://github.com/user-attachments/assets/8e320ab5-3331-4ec4-8bfd-a97826953ea0" />
+  <img width="879" height="272" alt="image" src="https://github.com/user-attachments/assets/eb160601-679c-4ccc-8367-f0f917548884" />
+  <img width="880" height="274" alt="image" src="https://github.com/user-attachments/assets/b8970644-c92a-4152-8310-ce4d63e513da" />
 </p>
 
 ## Note 
@@ -38,6 +40,7 @@ Dead Simple Mouse Jiggler Implemented in Rust.
 - [winapi](https://lib.rs/crates/winapi)
 - [core-graphic](https://lib.rs/crates/core-graphics)
 - [system tray disscussion](https://github.com/orgs/tauri-apps/discussions/2684)
+
 
 
 

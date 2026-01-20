@@ -1,6 +1,7 @@
 import m from 'mithril'
 import { ActiveTab, rigglerAppState } from './state'
 import { getConfigInvoke, setConfigInvoke } from './invokes'
+import logo from './assets/riggler-icon1.png'
 
 const MAX_DELAY = 5;
 const MAX_DELTA = 25;
@@ -29,7 +30,7 @@ export const settingScreen: m.Component = {
       m('img', {
         onclick: () => rigglerAppState.activeTab = ActiveTab.MainScreen,
         class: 'riggler-icon-image',
-        src: '/src/assets/riggler-icon1.png',
+        src: logo,
         height: '70px',
         style: {
           borderRadius: "60px"

@@ -1,5 +1,6 @@
 import m from 'mithril'
 import { ActiveTab, rigglerAppState } from './state'
+import logo from './assets/riggler-icon1.png'
 
 export const aboutScreen: m.Component = {
   view: function (): m.Children | null | void {
@@ -7,10 +8,10 @@ export const aboutScreen: m.Component = {
       m('img', {
         onclick: () => rigglerAppState.activeTab = ActiveTab.MainScreen,
         class: 'riggler-icon-image',
-        src: '/src/assets/riggler-icon1.png',
+        src: logo,
         height: '70px',
         style: {
-          borderRadius: "60px"
+          borderRadius: '60px'
         }
       }),
 

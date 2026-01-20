@@ -1,6 +1,10 @@
 import m from 'mithril'
 import { ActiveTab, rigglerAppState } from './state'
 import { toggleJigglingInvoke } from './invokes'
+import logo from './assets/riggler-icon1.png'
+import chevronDown from './assets/chevron-down-icon.svg'
+import gear from './assets/gear-icon.svg'
+import questionMark from './assets/question-mark.svg'
 
 export const mainScreen: m.Component = {
   view: function (): m.Children | null | void {
@@ -15,7 +19,7 @@ export const mainScreen: m.Component = {
         m('img', {
           onclick: () => rigglerAppState.activeTab = ActiveTab.MainScreen,
           class: 'riggler-icon-image',
-          src: '/src/assets/riggler-icon1.png',
+          src: logo,
           height: '70px',
           style: {
             borderRadius: "60px"
@@ -47,7 +51,7 @@ export const mainScreen: m.Component = {
             },
               m("img", {
                 width: "30px",
-                src: "/src/assets/chevron-down-icon.svg"
+                src: chevronDown
               })
             ),
 
@@ -56,7 +60,7 @@ export const mainScreen: m.Component = {
             },
               m("img", {
                 width: "30px",
-                src: "/src/assets/gear-icon.svg"
+                src: gear
               })
             ),
 
@@ -65,7 +69,7 @@ export const mainScreen: m.Component = {
             },
               m("img", {
                 width: "30px",
-                src: "/src/assets/question-mark.svg"
+                src: questionMark
               })
             ),
           ]
