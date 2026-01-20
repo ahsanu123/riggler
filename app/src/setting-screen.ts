@@ -30,6 +30,7 @@ export const settingScreen: m.Component = {
       m('img', {
         onclick: () => rigglerAppState.activeTab = ActiveTab.MainScreen,
         class: 'riggler-icon-image',
+        draggable: 'false',
         src: logo,
         height: '70px',
         style: {

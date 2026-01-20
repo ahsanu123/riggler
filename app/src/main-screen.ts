@@ -21,6 +21,7 @@ export const mainScreen: m.Component = {
           class: 'riggler-icon-image',
           src: logo,
           height: '70px',
+          draggable: 'false',
           style: {
             borderRadius: "60px"
           }
@@ -51,6 +52,7 @@ export const mainScreen: m.Component = {
             },
               m("img", {
                 width: "30px",
+                draggable: 'false',
                 src: chevronDown
               })
             ),
@@ -60,6 +62,7 @@ export const mainScreen: m.Component = {
             },
               m("img", {
                 width: "30px",
+                draggable: 'false',
                 src: gear
               })
             ),
@@ -69,6 +72,7 @@ export const mainScreen: m.Component = {
             },
               m("img", {
                 width: "30px",
+                draggable: 'false',
                 src: questionMark
               })
             ),

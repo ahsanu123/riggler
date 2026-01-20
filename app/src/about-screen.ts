@@ -10,6 +10,7 @@ export const aboutScreen: m.Component = {
         class: 'riggler-icon-image',
         src: logo,
         height: '70px',
+        draggable: 'false',
         style: {
           borderRadius: '60px'
         }
