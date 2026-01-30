@@ -13,6 +13,9 @@
   </a>
 </p>
 
+> [!NOTE] 
+> Port this to [slint](https://slint.dev/)!!
+
 # 🖱️ Riggler - Rust Mouse Jiggler 
 
 Dead Simple Mouse Jiggler Implemented in Rust.
@@ -40,6 +43,7 @@ Dead Simple Mouse Jiggler Implemented in Rust.
 - [winapi](https://lib.rs/crates/winapi)
 - [core-graphic](https://lib.rs/crates/core-graphics)
 - [system tray disscussion](https://github.com/orgs/tauri-apps/discussions/2684)
+
 
 
 
