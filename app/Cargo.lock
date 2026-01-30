@@ -2767,16 +2767,6 @@ dependencies = [
 ]
 
 [[package]]
-name = "my_app"
-version = "0.1.0"
-dependencies = [
- "console_error_panic_hook",
- "slint",
- "slint-build",
- "wasm-bindgen",
-]
-
-[[package]]
 name = "ndk"
 version = "0.8.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -3834,6 +3824,16 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "0c6a884d2998352bb4daf0183589aec883f16a6da1f4dde84d8e2e9a5409a1ce"
 dependencies = [
  "bytemuck",
+]
+
+[[package]]
+name = "riggler"
+version = "0.1.0"
+dependencies = [
+ "console_error_panic_hook",
+ "slint",
+ "slint-build",
+ "wasm-bindgen",
 ]
 
 [[package]]

@@ -1,17 +1,229 @@
-import { FilledButton, ElevatedCard } from "@material";
-export { MaterialWindowAdapter } from "@material";
+import {
+    MaterialWindowAdapter,
+    FilledButton,
+    ElevatedCard,
+    Vertical,
+    IconButton,
+    CheckBoxTile,
+    Switch,
+    Slider,
+    SnackBar,
+    FilterChip,
+} from "../material-1.0/material.slint";
+import { Horizontal } from "../material-1.0/ui/components/horizontal.slint";
+import { TextButton } from "../material-1.0/ui/components/text_button.slint";
+import {
+    SegmentedButton,
+} from "../material-1.0/ui/components/segmented_button.slint";
+
+enum Screen {
+  Jiggling,
+  Setting, 
+  About,
+}
+
+struct Configuration {
+  delay: float,
+  delta: float,
+}
+
+export global RigglerState {
+    in-out property <Screen> activeScreen: Screen.Jiggling;
+    in-out property <bool> isJiggling: false;
+    in-out property <Configuration> config: { delay: 1, delta: 1 };
+
+    callback onIsJigglingChanged(isJiggling: bool);
+    callback onConfigurationChanged(config: Configuration);
+    callback onActiveScreenChanged(screen: Screen);
+}
+
+global Theme {
+    in-out property <color> bgColor: #fdf8fc;
+}
+
+component RightSegmentedRadioButton inherits Vertical {
+    alignment: center;
+
+    callback minimizeToTray();
+
+    Vertical {
+        alignment: center;
+
+        Horizontal {
+            alignment: end;
+
+            SegmentedButton {
+                height: 40px;
+
+                items: [
+                    { icon: @image-url("./icons/menu.svg") },
+                    {
+                        icon: @image-url("./icons/gear-icon.svg"),
+                        text: RigglerState.activeScreen == Screen.Setting ? "Settings" : ""
+                    },
+                    {
+                        icon: @image-url("./icons/question-mark.svg"),
+                        text: RigglerState.activeScreen == Screen.About ? "About" : ""
+                    },
+                ];
+                index_changed(index) => {
+                    if (index == 0) {
+                        RigglerState.activeScreen = Screen.Jiggling;
+                        RigglerState.onActiveScreenChanged(Screen.Jiggling);
+                    } else if (index == 1) {
+                        RigglerState.activeScreen = Screen.Setting;
+                        RigglerState.onActiveScreenChanged(Screen.Setting);
+                    } else if (index == 2) {
+                        RigglerState.activeScreen = Screen.About;
+                        RigglerState.onActiveScreenChanged(Screen.About);
+                    } else if (index == 3) {
+                        minimizeToTray();
+                    }
+                }
+            }
+
+            IconButton {
+                icon: @image-url("./icons/chevron-down-icon.svg");
+            }
+        }
+    }
+}
+
+component JigglingScreen {
+    Vertical {
+        alignment: center;
+
+        Horizontal {
+            alignment: space-evenly;
+
+            Vertical {
+                alignment: center;
+                Horizontal {
+                    alignment: space-between;
+
+                    jigglingToggleSw := Switch {
+                        width: 60px;
+                        height: 30px;
+
+                        checked_state_changed(checked) => {
+                            RigglerState.isJiggling = checked;
+                            RigglerState.onIsJigglingChanged(checked);
+                        }
+                    }
+
+                    Text {
+                        vertical-alignment: center;
+                        font-size: 20px;
+                        text: jigglingToggleSw.checked ? "Stop Jiggling" : "Jiggling";
+                    }
+                }
+            }
+        }
+    }
+}
+
+component SettingScreen {
+    Vertical {
+        alignment: center;
+
+        Horizontal {
+            alignment: start;
+
+            Vertical {
+                Text {
+                    vertical-alignment: center;
+                    font-size: 20px;
+                    font-weight: 800;
+                    text: "Delay " + delaySlider.value;
+                }
+
+                delaySlider := Slider {
+                    width: 100px;
+                    maximum: 10;
+                    value_changed(value) => {
+                        let config: Configuration = { delta: RigglerState.config.delta, delay: value };
+
+                        RigglerState.config = config;
+                        RigglerState.onConfigurationChanged(config);
+                    }
+                }
+            }
+
+            Vertical {
+                Text {
+                    vertical-alignment: center;
+                    font-size: 20px;
+                    font-weight: 800;
+                    text: "Delta " + deltaSlider.value;
+                }
+
+                deltaSlider := Slider {
+                    width: 100px;
+                    maximum: 15;
+                    value_changed(value) => {
+                        let config: Configuration = { delta: value, delay: RigglerState.config.delay };
+
+                        RigglerState.config = config;
+                        RigglerState.onConfigurationChanged(config);
+                    }
+                }
+            }
+        }
+    }
+}
+
+component AboutScreen {
+    Vertical {
+        alignment: center;
+
+        Horizontal {
+            alignment: start;
+
+            Image {
+                vertical-alignment: center;
+                horizontal-alignment: center;
+
+                source: @image-url("./icons/riggler-icon1.png");
+                width: 55px;
+                height: 50px;
+            }
+
+            Vertical {
+                Text {
+                    text: "Riggler";
+                    font-weight: 800;
+                    font-size: 18px;
+                }
+
+                Text {
+                    text: "Dead Simple Mouse Jiggler in Rust.";
+                    font-size: 13px;
+                }
+            }
+        }
+    }
+}
 
 export component MainWindow inherits Window {
-    property <int> count: 0;
+    width: 700px;
+    height: 140px;
+    background: Theme.bgColor;
+    title: "Riggler";
 
-    ElevatedCard {
-        width: 90%;
-        height: 90%;
-        FilledButton {
-            text: "Count: " + count;
-            icon: @image-url("slint-logo.svg");
-            clicked => {
-                count += 1;
+    Vertical {
+        alignment: center;
+
+        Horizontal {
+            alignment: space-between;
+
+            if RigglerState.activeScreen == Screen.Jiggling:  JigglingScreen { }
+
+            if RigglerState.activeScreen == Screen.Setting:  SettingScreen { }
+
+            if RigglerState.activeScreen == Screen.About: AboutScreen { }
+
+            RightSegmentedRadioButton {
+                padding-right: -20px;
             }
         }
     }

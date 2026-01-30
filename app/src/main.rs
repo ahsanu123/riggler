@@ -2,5 +2,5 @@
 // Just forward to the library in main
 
 fn main() {
-    my_app_lib::main();
+    riggler_lib::main();
 }

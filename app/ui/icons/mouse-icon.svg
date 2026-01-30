@@ -1,0 +1,19 @@
+<svg 
+  viewBox="0 0 16 16" 
+  height="200px" 
+  width="200px" 
+  xmlns="http://www.w3.org/2000/svg" 
+  >
+  <defs>
+    <linearGradient id="iconGradient" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#6fb2e7" />
+      <stop offset="100%" stop-color="#f2dbb2" />
+    </linearGradient>
+  </defs>
+  <path 
+    fill="url(#iconGradient)"
+    stroke="#85abeb"
+    stroke-width="8"
+    d="M3 5a5 5 0 0 1 10 0v6a5 5 0 0 1-10 0zm5.5-1.5a.5.5 0 0 0-1 0v2a.5.5 0 0 0 1 0z">
+  </path>
+</svg>
