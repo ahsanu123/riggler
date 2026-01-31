@@ -9,6 +9,8 @@ fn init_configuration() -> Configuration {
     let config_path = config_dir().unwrap().join(".riggler");
     let config_file = OpenOptions::new()
         .read(true)
+        .write(true)
+        .create(true)
         .open(config_path.clone())
         .unwrap();
 

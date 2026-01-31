@@ -1,4 +1,4 @@
-name: Build Tauri No Bundle
+name: Build Riggler Release
 
 on:
   workflow_dispatch: 
@@ -11,44 +11,37 @@ jobs:
     name: Build on Linux (x86_64)
     steps:
       - uses: actions/checkout@v4
-      - name: Setup Rust & Node
+      - name: Setup Rust 
         run: |
           sudo apt update
-          sudo apt install -y libwebkit2gtk-4.1-dev build-essential libssl-dev
+          sudo apt install -y build-essential pkg-config libglib2.0-dev libgtk-3-dev
           curl https://sh.rustup.rs -sSf | sh -s -- -y
           source $HOME/.cargo/env
           rustup default stable
-          curl -fsSL https://deb.nodesource.com/setup_20.x | sudo bash -
-          sudo apt install -y nodejs
-          npm install -g yarn
-      - name: Build Tauri App
+      - name: Build Windows Slint App
         run: |
           cd app
-          yarn install
-          yarn tauri build --no-bundle
+          cargo build --release
       - uses: actions/upload-artifact@v4
         with:
-          name: linux-binary
-          path: app/src-tauri/target/release/riggler
+          name: linux
+          path: app/target/release/riggler
 
   build_windows:
     runs-on: windows-latest
     name: Build on Windows
     steps:
       - uses: actions/checkout@v4
-      - name: Setup Rust & Node
+      - name: Setup Rust
         run: |
-          choco install -y nodejs-lts
-          npm install -g yarn
           curl https://sh.rustup.rs -sSf | sh -s -- -y
           setx PATH "%USERPROFILE%\.cargo\bin;%PATH%"
           rustup default stable
-      - name: Build Tauri App
+      - name: Build Windows Slint App
         run: |
           cd app
-          yarn install
-          yarn tauri build --no-bundle
+          cargo build --release
       - uses: actions/upload-artifact@v4
         with:
-          name: windows-binary
-          path: app\src-tauri\target\release\riggler.exe
+          name: windows
+          path: app\target\release\riggler.exe
