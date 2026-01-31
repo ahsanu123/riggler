@@ -1,20 +1,11 @@
 import {
-    MaterialWindowAdapter,
-    FilledButton,
-    ElevatedCard,
     Vertical,
     IconButton,
-    CheckBoxTile,
     Switch,
     Slider,
-    SnackBar,
-    FilterChip,
-} from "../material-1.0/material.slint";
-import { Horizontal } from "../material-1.0/ui/components/horizontal.slint";
-import { TextButton } from "../material-1.0/ui/components/text_button.slint";
-import {
     SegmentedButton,
-} from "../material-1.0/ui/components/segmented_button.slint";
+    Horizontal,
+} from "../material-1.0/material.slint";
 
 @rust-attr(derive(serde::Serialize, serde::Deserialize))
 enum Screen {
@@ -32,7 +23,7 @@ struct Configuration {
 export global RigglerState {
     in-out property <Screen> activeScreen: Screen.Jiggling;
     in-out property <bool> isJiggling: false;
-    in-out property <Configuration> config: { delay: 1, delta: 1 };
+    in-out property <Configuration> config: { delay: 1, delta: 2 };
 
     callback onIsJigglingChanged(isJiggling: bool);
     callback onConfigurationChanged(config: Configuration);
@@ -60,11 +51,9 @@ component RightSegmentedRadioButton inherits Vertical {
                     { icon: @image-url("./icons/menu.svg") },
                     {
                         icon: @image-url("./icons/gear-icon.svg"),
-                        text: RigglerState.activeScreen == Screen.Setting ? "Settings" : ""
                     },
                     {
                         icon: @image-url("./icons/question-mark.svg"),
-                        text: RigglerState.activeScreen == Screen.About ? "About" : ""
                     },
                 ];
                 index_changed(index) => {
@@ -136,12 +125,16 @@ component SettingScreen {
                     vertical-alignment: center;
                     font-size: 20px;
                     font-weight: 800;
-                    text: "Delay " + delaySlider.value;
+                    text: "delay " + delaySlider.value;
                 }
 
                 delaySlider := Slider {
-                    width: 100px;
+                    width: 125px;
+                    height: 10px;
                     maximum: 10;
+                    minimum: 1;
+                    value: RigglerState.config.delay;
+
                     value_changed(value) => {
                         let config: Configuration = { delta: RigglerState.config.delta, delay: value };
 
@@ -156,12 +149,16 @@ component SettingScreen {
                     vertical-alignment: center;
                     font-size: 20px;
                     font-weight: 800;
-                    text: "Delta " + deltaSlider.value;
+                    text: "delta " + deltaSlider.value;
                 }
 
                 deltaSlider := Slider {
-                    width: 100px;
+                    width: 125px;
+                    height: 10px;
                     maximum: 15;
+                    minimum: 1;
+                    value: RigglerState.config.delta;
+
                     value_changed(value) => {
                         let config: Configuration = { delta: value, delay: RigglerState.config.delay };
 
@@ -177,12 +174,15 @@ component SettingScreen {
 component AboutScreen {
     Vertical {
         alignment: center;
+        padding: 0px;
 
         Horizontal {
             alignment: start;
+            padding: 0px;
+            spacing: 0px;
 
             Image {
-                vertical-alignment: center;
+                vertical-alignment: ImageVerticalAlignment.center;
                 horizontal-alignment: center;
 
                 source: @image-url("./icons/riggler-icon1.png");
@@ -207,8 +207,8 @@ component AboutScreen {
 }
 
 export component MainWindow inherits Window {
-    width: 700px;
-    height: 140px;
+    width: 600px;
+    height: 90px;
     background: Theme.bgColor;
     title: "Riggler";
 
@@ -217,6 +217,8 @@ export component MainWindow inherits Window {
 
         Horizontal {
             alignment: space-between;
+            padding: -10px;
+            spacing: 0px;
 
             if RigglerState.activeScreen == Screen.Jiggling:  JigglingScreen { }
 
@@ -225,7 +227,9 @@ export component MainWindow inherits Window {
             if RigglerState.activeScreen == Screen.About: AboutScreen { }
 
             RightSegmentedRadioButton {
-                padding-right: -20px;
+                padding: 0px;
+                padding-right: -5px;
+                spacing: 0px;
             }
         }
     }

@@ -1,51 +1,86 @@
-use std::{
-    sync::{OnceLock, mpsc},
-    thread::{self, Thread},
-    time::Duration,
-};
-
+use dirs::config_dir;
+use riggler_shared::{JIGGLING_DELAY, JIGGLING_DELTA, JIGGLING_ENABLE, jiggling};
+use std::{fs::OpenOptions, sync::atomic::Ordering};
 use tray_item::{IconSource, TrayItem};
 
 slint::include_modules!();
 
-enum TrayCommand {
-    Show,
-    Hide,
-    Quit,
-}
-fn ui() -> MainWindow {
-    MainWindow::new().unwrap()
+fn init_configuration() -> Configuration {
+    let config_path = config_dir().unwrap().join(".riggler");
+    let config_file = OpenOptions::new()
+        .read(true)
+        .open(config_path.clone())
+        .unwrap();
+
+    let config = match serde_json::from_reader::<_, Configuration>(config_file) {
+        Ok(config) => config,
+        Err(_) => {
+            let config_file = OpenOptions::new()
+                .create(true)
+                .truncate(true)
+                .write(true)
+                .open(config_path.clone())
+                .unwrap();
+
+            let config = Configuration {
+                delay: 1.0,
+                delta: 2.0,
+            };
+
+            serde_json::to_writer_pretty::<_, Configuration>(config_file, &config).unwrap();
+            config
+        }
+    };
+
+    JIGGLING_DELAY.store(config.delay.round() as i32, Ordering::Relaxed);
+    JIGGLING_DELTA.store(config.delta.round() as i32, Ordering::Relaxed);
+
+    config
 }
 
-fn screen_as_string(screen: Screen) -> String {
-    match screen {
-        Screen::Jiggling => String::from("Jiggling"),
-        Screen::Setting => String::from("Setting"),
-        Screen::About => String::from("About"),
-    }
-}
-
-fn config_as_string(config: Configuration) -> String {
-    format!("delay: {}, delta: {}", config.delay, config.delta)
+fn set_config(config: Configuration) {
+    let config_path = config_dir().unwrap().join(".riggler");
+    let config_file = OpenOptions::new()
+        .create(true)
+        .read(true)
+        .write(true)
+        .truncate(true)
+        .open(config_path.clone())
+        .unwrap();
+    serde_json::to_writer_pretty::<_, Configuration>(config_file, &config).unwrap();
 }
 
 pub fn main() {
     #[cfg(target_os = "linux")]
     gtk::init().unwrap();
 
-    let ui = ui();
+    let initial_config = init_configuration();
+
+    let ui = MainWindow::new().unwrap();
+
     let ui_weak = ui.as_weak();
     let global_state = ui.global::<RigglerState>();
 
+    global_state.set_config(initial_config);
+
     global_state.on_onActiveScreenChanged(|screen| {
-        println!("screen -> {}", screen_as_string(screen));
+        #[cfg(feature = "debug")]
+        println!("screen -> {:?}", screen);
     });
 
     global_state.on_onIsJigglingChanged(|is_jiggling| {
+        #[cfg(feature = "debug")]
         println!("is_jiggling -> {}", is_jiggling);
+        JIGGLING_ENABLE.store(is_jiggling, Ordering::Relaxed);
     });
     global_state.on_onConfigurationChanged(|config| {
-        println!("config -> {}", config_as_string(config));
+        #[cfg(feature = "debug")]
+        println!("config -> {:?}", config);
+
+        JIGGLING_DELAY.store(config.delay.round() as i32, Ordering::Relaxed);
+        JIGGLING_DELTA.store(config.delta.round() as i32, Ordering::Relaxed);
+
+        set_config(config);
     });
 
     let ui_weak_to_tray = ui_weak.clone();
@@ -74,6 +109,9 @@ pub fn main() {
     })
     .unwrap();
 
+    jiggling();
+
     ui.window().show().unwrap();
+
     slint::run_event_loop_until_quit().unwrap();
 }

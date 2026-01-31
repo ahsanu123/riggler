@@ -9,8 +9,7 @@ import { MaterialAnimations } from "../styling/material_animations.slint";
 
 export struct SegmentedItem {
     icon: image,
-    text: string
-}
+    text: string}
 
 component SegmentedItemTemplate {
     in property <image> icon;
@@ -27,7 +26,7 @@ component SegmentedItemTemplate {
     accessible-item-selected: root.selected;
     accessible-item-index: root.index;
 
-    if root.selected : Rectangle {
+    if root.selected: Rectangle {
         background: MaterialPalette.secondary_container;
     }
 
@@ -41,11 +40,13 @@ component SegmentedItemTemplate {
         icon: root.icon;
         text: root.text;
 
-
-        animate width { duration: MaterialAnimations.standard_accelerate_duration; easing: MaterialAnimations.standard_easing; }
+        animate width {
+            duration: MaterialAnimations.standard_accelerate_duration;
+            easing: MaterialAnimations.standard_easing;
+        }
     }
 
-    if !root.last : Rectangle {
+    if !root.last: Rectangle {
         x: parent.width - self.width;
         width: 1px;
         height: 100%;
@@ -53,7 +54,7 @@ component SegmentedItemTemplate {
     }
 
     states [
-        selected when root.selected : {
+        selected when root.selected: {
             base.icon: Icons.check;
         }
     ]
@@ -78,7 +79,7 @@ export component SegmentedButton {
         border_color: MaterialPalette.outline;
 
         layout := HorizontalLayout {
-            for item[index] in root.items : SegmentedItemTemplate {
+            for item[index] in root.items: SegmentedItemTemplate {
                 icon: item.icon;
                 text: item.text;
                 index: index;
@@ -96,7 +97,6 @@ export component SegmentedButton {
         if index < 0 || index >= root.items.length {
             return;
         }
-
         root.current_index = index;
         root.index_changed(index);
     }
