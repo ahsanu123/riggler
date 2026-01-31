@@ -1,6 +1,7 @@
 use tray_item::{IconSource, TrayItem};
 
 fn main() {
+    #[cfg(target_os = "linux")]
     gtk::init().unwrap();
     let mut tray = TrayItem::new("Tray Example", IconSource::Resource("riggler-icon")).unwrap();
 
@@ -12,9 +13,11 @@ fn main() {
     .unwrap();
 
     tray.add_menu_item("Quit", || {
+        #[cfg(target_os = "linux")]
         gtk::main_quit();
     })
     .unwrap();
 
+    #[cfg(target_os = "linux")]
     gtk::main();
 }
