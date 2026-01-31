@@ -16,12 +16,14 @@ import {
     SegmentedButton,
 } from "../material-1.0/ui/components/segmented_button.slint";
 
+@rust-attr(derive(serde::Serialize, serde::Deserialize))
 enum Screen {
   Jiggling,
   Setting, 
   About,
 }
 
+@rust-attr(derive(serde::Serialize, serde::Deserialize))
 struct Configuration {
   delay: float,
   delta: float,
@@ -35,6 +37,7 @@ export global RigglerState {
     callback onIsJigglingChanged(isJiggling: bool);
     callback onConfigurationChanged(config: Configuration);
     callback onActiveScreenChanged(screen: Screen);
+    callback minimizeToTray();
 }
 
 global Theme {
@@ -43,8 +46,6 @@ global Theme {
 
 component RightSegmentedRadioButton inherits Vertical {
     alignment: center;
-
-    callback minimizeToTray();
 
     Vertical {
         alignment: center;
@@ -76,14 +77,15 @@ component RightSegmentedRadioButton inherits Vertical {
                     } else if (index == 2) {
                         RigglerState.activeScreen = Screen.About;
                         RigglerState.onActiveScreenChanged(Screen.About);
-                    } else if (index == 3) {
-                        minimizeToTray();
                     }
                 }
             }
 
             IconButton {
                 icon: @image-url("./icons/chevron-down-icon.svg");
+                clicked => {
+                    RigglerState.minimizeToTray();
+                }
             }
         }
     }

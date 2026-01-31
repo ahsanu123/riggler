@@ -1,0 +1,5 @@
+aa-exe-icon ICON "ui/icons/app-icon.ico"
+name-of-icon-in-rc-file ICON "./ui/icons/icon-green.ico"
+another-name-from-rc-file ICON "./ui/icons/icon-red.ico"
+tray-default ICON "ui/icons/app-icon.ico"
+riggler-icon ICON "./ui/icons/riggler-icon1.png"

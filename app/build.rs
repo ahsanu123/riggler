@@ -2,6 +2,7 @@
 // SPDX-License-Identifier: MIT
 
 fn main() {
+    let _ = embed_resource::compile("riggler-resources.rc", embed_resource::NONE);
     let config = slint_build::CompilerConfiguration::new().with_library_paths(
         std::collections::HashMap::from([(
             "material".to_string(),
