@@ -1,8 +1,13 @@
 // Copyright © SixtyFPS GmbH <info@slint.dev>
 // SPDX-License-Identifier: MIT
 
+extern crate embed_resource;
+
 fn main() {
-    let _ = embed_resource::compile("riggler-resources.rc", embed_resource::NONE);
+    embed_resource::compile("riggler-resources.rc", embed_resource::NONE)
+        .manifest_optional()
+        .unwrap();
+
     let config = slint_build::CompilerConfiguration::new().with_library_paths(
         std::collections::HashMap::from([(
             "material".to_string(),

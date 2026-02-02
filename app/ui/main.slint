@@ -96,6 +96,8 @@ component JigglingScreen {
                         width: 60px;
                         height: 30px;
 
+                        checked: RigglerState.isJiggling;
+
                         checked_state_changed(checked) => {
                             RigglerState.isJiggling = checked;
                             RigglerState.onIsJigglingChanged(checked);

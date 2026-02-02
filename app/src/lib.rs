@@ -1,6 +1,6 @@
 use dirs::config_dir;
 use riggler_shared::{JIGGLING_DELAY, JIGGLING_DELTA, JIGGLING_ENABLE, jiggling};
-use std::{fs::OpenOptions, sync::atomic::Ordering};
+use std::{env, fs::OpenOptions, io::Cursor, sync::atomic::Ordering};
 use tray_item::{IconSource, TrayItem};
 
 slint::include_modules!();
@@ -49,10 +49,15 @@ fn set_config(config: Configuration) {
         .truncate(true)
         .open(config_path.clone())
         .unwrap();
+
     serde_json::to_writer_pretty::<_, Configuration>(config_file, &config).unwrap();
 }
 
 pub fn main() {
+    unsafe {
+        env::set_var("SLINT_SCALE_FACTOR", "1");
+    }
+
     #[cfg(target_os = "linux")]
     gtk::init().unwrap();
 
@@ -86,6 +91,7 @@ pub fn main() {
     });
 
     let ui_weak_to_tray = ui_weak.clone();
+
     global_state.on_minimizeToTray(move || {
         ui_weak_to_tray.unwrap().window().hide().unwrap();
     });
@@ -116,4 +122,8 @@ pub fn main() {
     ui.window().show().unwrap();
 
     slint::run_event_loop_until_quit().unwrap();
+
+    unsafe {
+        env::remove_var("SLINT_SCALE_FACTOR");
+    }
 }
